@@ -28,10 +28,9 @@ export const TodoProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setTodos(todos.filter((todo) => todo.id !== id));
   };
 
-
   const clearCompletedTodos = () => {
-    setTodos(todos.filter((todo) => !todo.completed))
-  }
+    setTodos(todos.filter((todo) => !todo.completed));
+  };
 
   return (
     <TodoContext.Provider value={{ todos, addTodo, toggleTodo, removeTodo, clearCompletedTodos }}>

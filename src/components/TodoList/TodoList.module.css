@@ -1,3 +1,9 @@
+
+.tabsContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
 .list {
   list-style-type: none;
   padding: 0;
@@ -7,4 +13,13 @@
   font-size: 20px;
   margin-bottom: 10px;
   color: #333;
+}
+
+.buttonClearCompleted {
+  height: 40px;
+  background-color: #e7045f;
+  border: 1px solid transparent;
+  cursor: pointer;
+  margin-left: 50px;
+  color: #ffffff;
 }
