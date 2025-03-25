@@ -1,13 +1,17 @@
-import React, { createContext, useState } from 'react';
-import { Todo, TodoContextType } from './TodoTypes';
+import React, { createContext, useState } from "react";
+import { Todo, TodoContextType } from "../types";
 
-export const TodoContext = createContext<TodoContextType | undefined>(undefined);
+export const TodoContext = createContext<TodoContextType | undefined>(
+  undefined
+);
 
-export const TodoProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const TodoProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [todos, setTodos] = useState<Todo[]>([]);
 
   const addTodo = (text: string) => {
-    if (text.trim() === '') return;
+    if (text.trim() === "") return;
     const newTodo: Todo = {
       id: Date.now(),
       text,
@@ -33,7 +37,9 @@ export const TodoProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <TodoContext.Provider value={{ todos, addTodo, toggleTodo, removeTodo, clearCompletedTodos }}>
+    <TodoContext.Provider
+      value={{ todos, addTodo, toggleTodo, removeTodo, clearCompletedTodos }}
+    >
       {children}
     </TodoContext.Provider>
   );

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useTodoContext } from "../../context/useTodoContext";
-import {motion} from 'framer-motion'
-import styles from "./TodoForm.module.css";
+import { motion } from "framer-motion";
+import styles from "./TodoForm.module.scss";
+import { TEXTS } from "../../constants";
 
 const TodoForm: React.FC = () => {
   const { addTodo } = useTodoContext();
@@ -9,6 +10,7 @@ const TodoForm: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (text.trim() === "") return;
     addTodo(text);
     setText("");
   };
@@ -20,7 +22,7 @@ const TodoForm: React.FC = () => {
         className={styles.input}
         value={text}
         onChange={(e) => setText(e.target.value)}
-        placeholder="Enter a new task"
+        placeholder={TEXTS.PLACEHOLDER}
       />
       <motion.button
         whileHover={{ scale: 1.1 }}
@@ -29,7 +31,7 @@ const TodoForm: React.FC = () => {
         type="submit"
         className={styles.button}
       >
-        Add task
+        {TEXTS.BUTTONS.BUTTON}
       </motion.button>
     </form>
   );

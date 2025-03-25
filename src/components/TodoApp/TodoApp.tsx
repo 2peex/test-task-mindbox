@@ -1,12 +1,13 @@
 import React from "react";
-import { TodoForm } from "../TodoForm";
-import TodoList from "../TodoList/TodoList";
-import styles from "./TodoApp.module.css";
+import styles from "./TodoApp.module.scss";
+import TodoForm from "../TodoForm/TodoForm";
+import TodoList from "../TodoList";
+import { APP } from "../../constants";
 
 const TodoApp: React.FC = () => {
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>todos</h1>
+      <h1 className={styles.title}>{APP.TITLE}</h1>
       <TodoForm />
       <TodoList />
     </div>

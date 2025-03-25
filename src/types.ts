@@ -10,5 +10,8 @@ export interface TodoContextType {
   toggleTodo: (id: number) => void;
   removeTodo: (id: number) => void;
   clearCompletedTodos: () => void;
+}
 
+export interface TodoItemProps {
+  todo: Todo;
 }

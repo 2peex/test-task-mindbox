@@ -1,6 +1,7 @@
 import React from "react";
-import styles from "./TodoTabs.module.css";
-import {motion} from 'framer-motion'
+import styles from "./TodoTabs.module.scss";
+import { motion } from "framer-motion";
+import { TEXTS, ANIMATION } from "../../constants";
 
 interface TodoTabsProps {
   activeTab: string;
@@ -15,25 +16,23 @@ const TabsButton: React.FC<TodoTabsProps & { title: string }> = ({
   const tabValue = title.toLowerCase();
   return (
     <motion.button
-      whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 0.9 }}
-      transition={{ type: "keyframes", stiffness: 200 }}
-      className={`${styles.tab} ${activeTab === tabValue ? styles.active : ""}`}
-      onClick={() => {
-        setActiveTab(tabValue);
-      }}
+      whileHover={ANIMATION.HOVER}
+      whileTap={ANIMATION.TAP}
+      transition={ANIMATION.KEYFRAMES}
+      className={`${styles.tab} ${
+        activeTab === tabValue ? styles.active : TEXTS.EMPTY_STROKE
+      }`}
+      onClick={() => setActiveTab(tabValue)}
     >
       {title}
     </motion.button>
   );
 };
 
-const TabTitle = ["All", "Active", "Completed"];
-
 const TodoTabs: React.FC<TodoTabsProps> = ({ activeTab, setActiveTab }) => {
   return (
     <div className={styles.tabs}>
-      {TabTitle.map((item) => (
+      {Object.values(TEXTS.TABS).map((item) => (
         <TabsButton
           key={item}
           activeTab={activeTab}

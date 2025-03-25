@@ -1,12 +1,8 @@
-import React from 'react';
-
-import styles from './TodoItem.module.css'
-import { useTodoContext } from '../../context/useTodoContext';
-import { Todo } from '../../context/TodoTypes';
-
-interface TodoItemProps {
-  todo: Todo;
-}
+import React from "react";
+import { useTodoContext } from "../../context/useTodoContext";
+import { TodoItemProps } from "../../types";
+import styles from "./TodoItem.module.scss";
+import { TEXTS, STYLES } from "../../constants";
 
 const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
   const { toggleTodo, removeTodo } = useTodoContext();
@@ -20,11 +16,22 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
           onChange={() => toggleTodo(todo.id)}
           className={styles.checkbox}
         />
-        <span className={`${styles.itemText} ${todo.completed ? styles.itemTextCompleted : ''}`}>
+        <span
+          className={`${styles.itemText} ${
+            todo.completed
+              ? styles[STYLES.ITEM_TEXT_COMPLETED]
+              : TEXTS.EMPTY_STROKE
+          }`}
+        >
           {todo.text}
         </span>
       </label>
-      <button className={styles.deleteButton} onClick={() => removeTodo(todo.id)}>Delete</button>
+      <button
+        className={styles.deleteButton}
+        onClick={() => removeTodo(todo.id)}
+      >
+        {TEXTS.ITEM.DELETE}
+      </button>
     </li>
   );
 };

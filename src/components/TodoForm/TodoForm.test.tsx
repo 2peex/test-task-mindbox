@@ -1,26 +1,61 @@
-import { render, fireEvent, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import TodoForm from './TodoForm';
-import { TodoProvider } from '../../context/TodoContext';
+import { describe, it, expect, vi } from "vitest";
+import { render, fireEvent, screen } from "@testing-library/react";
+import TodoForm from "./TodoForm";
+import { TodoContext } from "../../context/TodoContext";
+import { TEXTS } from "../../constants";
 
-const renderWithContext = (component: React.ReactNode) => {
-  return render(
-    <TodoProvider>
-      {component}
-    </TodoProvider>
-  );
-};
+describe("TodoForm", () => {
+  it("should add a new todo", async () => {
+    const mockAddTodo = vi.fn();
 
-test('add a new todo', () => {
+    render(
+      <TodoContext.Provider
+        value={{
+          todos: [],
+          addTodo: mockAddTodo,
+          toggleTodo: vi.fn(),
+          removeTodo: vi.fn(),
+          clearCompletedTodos: vi.fn(),
+        }}
+      >
+        <TodoForm />
+      </TodoContext.Provider>
+    );
 
-  renderWithContext(<TodoForm />);
+    const input = screen.getByPlaceholderText(TEXTS.PLACEHOLDER);
+    const button = screen.getByText(TEXTS.BUTTONS.BUTTON);
 
-  const input = screen.getByPlaceholderText('Enter a new task');
-  const button = screen.getByText('Add task');
+    await fireEvent.change(input, { target: { value: "New Task" } });
+    await fireEvent.click(button);
 
-  fireEvent.change(input, { target: { value: 'New Task' } });
+    expect(mockAddTodo).toHaveBeenCalledWith("New Task");
+    expect(input).toHaveValue("");
+  });
 
-  fireEvent.click(button);
+  it("should not add empty todo", async () => {
+    const mockAddTodo = vi.fn();
 
-  expect(input).toHaveValue('');
+    const { container } = render(
+      <TodoContext.Provider
+        value={{
+          todos: [],
+          addTodo: mockAddTodo,
+          toggleTodo: vi.fn(),
+          removeTodo: vi.fn(),
+          clearCompletedTodos: vi.fn(),
+        }}
+      >
+        <TodoForm />
+      </TodoContext.Provider>
+    );
+
+    const form = container.querySelector("form")!;
+    const button = screen.getByText(TEXTS.BUTTONS.BUTTON);
+
+    await fireEvent.submit(form);
+
+    await fireEvent.click(button);
+
+    expect(mockAddTodo).not.toHaveBeenCalled();
+  });
 });

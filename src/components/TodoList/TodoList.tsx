@@ -1,19 +1,22 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useTodoContext } from "../../context/useTodoContext";
 import { TodoItem } from "../TodoItem";
 import { TodoTabs } from "../TodoTabs";
 import { motion } from "framer-motion";
-import styles from "./TodoList.module.css";
+import { TEXTS, ANIMATION } from "../../constants";
+import styles from "./TodoList.module.scss";
 
 const TodoList: React.FC = () => {
   const { todos, clearCompletedTodos } = useTodoContext();
-  const [activeTab, setActiveTab] = useState("all");
+  const [activeTab, setActiveTab] = useState(TEXTS.INITIAL_TABS_VALUE);
 
-  const filteredTodos = todos.filter((todo) => {
-    if (activeTab === "active") return !todo.completed;
-    if (activeTab === "completed") return todo.completed;
-    return true;
-  });
+  const filteredTodos = useMemo(() => {
+    return todos.filter((todo) => {
+      if (activeTab === TEXTS.ACTIVE) return !todo.completed;
+      if (activeTab === TEXTS.COMPLETED) return todo.completed;
+      return true;
+    });
+  }, [todos, activeTab]);
 
   return (
     <div>
@@ -25,13 +28,13 @@ const TodoList: React.FC = () => {
       <div className={styles.tabsContainer}>
         <TodoTabs activeTab={activeTab} setActiveTab={setActiveTab} />
         <motion.button
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          transition={{ type: "spring", stiffness: 200 }}
+          whileHover={ANIMATION.HOVER}
+          whileTap={ANIMATION.TAP}
+          transition={ANIMATION.SPRING}
           className={styles.buttonClearCompleted}
           onClick={clearCompletedTodos}
         >
-          Clear completed
+          {TEXTS.BUTTONS.CLEAR_COMPLETED}
         </motion.button>
       </div>
     </div>
